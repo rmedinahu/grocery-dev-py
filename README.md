@@ -8,4 +8,4 @@ To use the admin, you'll need to create a local superuser account: ```python man
 
 
 # Pulling changes from other team members?
-If they made changes to the models, you'll need to run ```python manage.py migrate``` to register db modifications in your local working db. 
+If they made changes to the models, you'll need to run ```python manage.py migrate``` to register those modifications in your local working db. 
