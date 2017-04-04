@@ -4,6 +4,8 @@ from django.views.generic import TemplateView, DetailView, ListView
 
 class HomeView(TemplateView):
     """Home page
-    url: /, name: home
+    url pattern: / name: home
     """
     template_name = 'home.html'
+
+
