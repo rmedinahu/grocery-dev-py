@@ -1,0 +1,21 @@
+<!-- item_list.html -->
+
+{% extends "base.html" %}
+
+{% block header_row %} 
+    <h1>Stuff... for {{ fav_person }}</h1>
+{% endblock header_row %}
+
+{% block content_row %} 
+    <div>
+    {% for item in object_list %}
+        <p>{{ item.name }} {{ item.item_type }}</p>
+    {% endfor %}
+    </div>
+{% endblock content_row %} 
+
+
+
+
+
+
