@@ -1,0 +1,28 @@
+<!-- item.html -->
+
+{% extends "base.html" %}
+
+{% block header_row %} 
+    <div class="col-md-12">
+    	<h3>
+    	{{ object.name }} 
+    	<a href="{% url 'item_edit' object.pk %}" class="btn btn-sm btn-outline-primary"><i class="fa fa-edit"></i></a>
+    	</h3>
+    </div>
+{% endblock header_row %}
+
+{% block content_row %} 
+<div class="col-md-4">
+	<ul class="list-unstyled">
+	<li>name: {{ object.name }}</li>
+	<li>type: {{ object.item_type }}</li>
+	<li>price: {{ object.price }}</li>
+	</ul>
+</div>
+{% endblock content_row %} 
+
+
+
+
+
+

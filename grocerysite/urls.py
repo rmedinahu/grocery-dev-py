@@ -16,11 +16,24 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from shopper_app.views import HomeView, ItemListView
+from shopper_app.views import HomeView, ItemListView, ItemCreateView, ItemDetailView, ItemUpdateView
 
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
+
+    # show all item object in the db.
     url(r'^items/$', ItemListView.as_view(), name='item_list'),
+    
+    # url pattern for showing the create item page.
+    url(r'^item/add/$', ItemCreateView.as_view(), name='item_add'),
+
+    # using a named url parameter (pk must match one or more digits) to retrieve correct object from database.
+    url(r'^item/edit/(?P<pk>\d+)/$', ItemUpdateView.as_view(), name='item_edit'),
+
+    # using a named url parameter (pk must match one or more digits) to retrieve correct object from database.
+    url(r'^item/(?P<pk>\d+)/$', ItemDetailView.as_view(), name='item_view'),
+    
+    # admin site.
     url(r'^admin/', admin.site.urls),
 ]
 
