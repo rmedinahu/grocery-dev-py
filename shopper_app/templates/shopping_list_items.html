@@ -1,0 +1,27 @@
+<!-- shopping_list_items.html -->
+
+{% extends "base.html" %}
+
+{% block header_row %} 
+    <div class="col-md-12">
+    	<h3>
+    	{{ shoplist }} 
+    	</h3>
+    </div>
+{% endblock header_row %}
+
+{% block content_row %} 
+<div class="col-md-4">
+	<ul class="list-unstyled">
+    {% for shoplist_item in shopitems %}
+	<li>name: {{ shoplist_item.item.name }}</li>
+    {% endfor %}
+	</ul>
+</div>
+{% endblock content_row %} 
+
+
+
+
+
+

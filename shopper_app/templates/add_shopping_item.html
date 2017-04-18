@@ -1,0 +1,22 @@
+<!-- add_shopping_item.html -->
+
+{% extends "base.html" %}
+
+{% block header_row %} 
+    <div class="col-md-12"><h3>Adding a new item to {{ shopping_list }}</h3><h4>{{ kwargs }}</h4></div>
+{% endblock header_row %}
+
+{% block content_row %} 
+<div class="col-md-12">
+	<form action="" method="post">{% csrf_token %}
+	    {{ form.as_p }}
+	    <input type="submit" class="btn btn-success" value="Add to shopping list!" />
+	</form>
+</div>
+{% endblock content_row %} 
+
+
+
+
+
+

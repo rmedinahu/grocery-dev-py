@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 
 from django.views.generic import TemplateView, DetailView, ListView, \
                                      CreateView, UpdateView
@@ -61,10 +62,59 @@ class ItemUpdateView(UpdateView):
     fields = ['name', 'item_type', 'price']
 
 
+class ShoppingListItemsView(TemplateView):
+    """ Show a page containing information about items in a shopping list. Using
+    this view requires the url pattern have a variable named "shopping_list_pk".
+    url pattern: shopper/(?P<shopping_list_pk>\d+) name: shopping_list_items_view
+    """
+    model = ShoppingListItem
+    template_name = 'shopping_list_items.html'
+
+    def get_context_data(self, **kwargs):
+        # get the parent context list.
+        context = super(ShoppingListItemsView, self).get_context_data(**kwargs)
+        try:
+            print self.kwargs, self.request.GET['varx']
+        except:
+            pass
+        # get the shopping list object
+        shoplist = ShoppingList.objects.get(pk=self.kwargs.get('shopping_list_pk'))
+
+        # get the items associated with the shopping list
+        shopitems = shoplist.items.all()
+        context['shopitems'] = shopitems
+        context['shoplist'] = shoplist
+        return context
 
 
+class AddShoppingListItemView(CreateView):
+    """ Show a page containing a form for adding and Item object
+    to a ShoppingList object
+    url pattern: /shopper/(?P<shopping_list_pk>\d+)/add name: add_shoppinglist_item
+    """
+    model = ShoppingListItem
+    template_name = 'add_shopping_item.html'
+    fields = ['shopping_list', 'item']
 
+    def get_success_url(self):
+        return reverse('home')
 
+    def get_initial(self):
+        # assign values to form
+        initial = super(AddShoppingListItemView, self).get_initial()
+        initial['shopping_list'] = ShoppingList.objects.get(pk=self.kwargs.get('shopping_list_pk'))
+        return initial
+
+    def get_context_data(self, **kwargs):
+        """ Override CreateView method to set custom template variables.
+        """
+        # get the parent context list.
+        context = super(AddShoppingListItemView, self).get_context_data(**kwargs)
+        context['shopping_list'] = ShoppingList.objects.get(pk=self.kwargs.get('shopping_list_pk'))
+
+        # Demo
+        context['kwargs'] = self.kwargs
+        return context
 
 
 

@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from shopper_app.views import HomeView, ItemListView, ItemCreateView, ItemDetailView, ItemUpdateView
+from shopper_app.views import HomeView, ItemListView, ItemCreateView, ItemDetailView, ItemUpdateView, AddShoppingListItemView, ShoppingListItemsView
 
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
@@ -32,6 +32,15 @@ urlpatterns = [
 
     # using a named url parameter (pk must match one or more digits) to retrieve correct object from database.
     url(r'^item/(?P<pk>\d+)/$', ItemDetailView.as_view(), name='item_view'),
+
+    # url for viewing items in a shopping list
+    url(r'^shopper/(?P<shopping_list_pk>\d+)/$', ShoppingListItemsView.as_view(), name='shopping_list_items_view'),
+
+
+    # url pattern for adding an item to a shopping list.
+    # uses named regex groups to collect multiple parameters
+    url(r'^shopper/(?P<shopping_list_pk>\d+)/add/$', AddShoppingListItemView.as_view(), name='add_shoppinglist_item'),
+
     
     # admin site.
     url(r'^admin/', admin.site.urls),
