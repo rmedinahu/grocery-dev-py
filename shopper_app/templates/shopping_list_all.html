@@ -1,0 +1,32 @@
+<!-- shopping_list_all.html -->
+
+{% extends "base.html" %}
+
+{% block header_row %} 
+    <div class="col-md-12"></div>
+{% endblock header_row %}
+
+{% block content_row %} 
+<div class="col-md-12">
+	<p>
+		<strong>Items</strong>
+		<a href="{% url 'add_shoppinglist_item' %}" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i></a>
+  
+	    <ul class="list-unstyled">
+	    {% for item in object_list %}
+	        <li>
+	        {{ item.name }}
+	        <a href="" class="btn btn-link"><i class="fa fa-eye"></i></a>
+	        <a href="" class="btn btn-link"><i class="fa fa-edit"></i></a>
+	        </li>
+	    {% endfor %}
+	    </ul>
+	</p>
+</div>
+{% endblock content_row %} 
+
+
+
+
+
+

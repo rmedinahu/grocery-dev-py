@@ -62,26 +62,28 @@ class ItemUpdateView(UpdateView):
     fields = ['name', 'item_type', 'price']
 
 
+class ShoppingListItemsAllView(ListView):
+    model = ShoppingList
+    template_name = 'shopping_list_all.html'
+
+
 class ShoppingListItemsView(TemplateView):
     """ Show a page containing information about items in a shopping list. Using
     this view requires the url pattern have a variable named "shopping_list_pk".
     url pattern: shopper/(?P<shopping_list_pk>\d+) name: shopping_list_items_view
     """
-    model = ShoppingListItem
     template_name = 'shopping_list_items.html'
 
     def get_context_data(self, **kwargs):
         # get the parent context list.
         context = super(ShoppingListItemsView, self).get_context_data(**kwargs)
-        try:
-            print self.kwargs, self.request.GET['varx']
-        except:
-            pass
+        
         # get the shopping list object
         shoplist = ShoppingList.objects.get(pk=self.kwargs.get('shopping_list_pk'))
 
         # get the items associated with the shopping list
         shopitems = shoplist.items.all()
+        
         context['shopitems'] = shopitems
         context['shoplist'] = shoplist
         return context
@@ -93,10 +95,11 @@ class AddShoppingListItemView(CreateView):
     url pattern: /shopper/(?P<shopping_list_pk>\d+)/add name: add_shoppinglist_item
     """
     model = ShoppingListItem
-    template_name = 'add_shopping_item.html'
+    template_name = 'shopping_list_item_add.html'
     fields = ['shopping_list', 'item']
 
     def get_success_url(self):
+        print self.get_object().shopping_list
         return reverse('home')
 
     def get_initial(self):

@@ -30,3 +30,10 @@ class ShoppingListItem(models.Model):
 
     def __str__(self):
         return self.shopping_list.name
+
+
+
+
+
+
+        
