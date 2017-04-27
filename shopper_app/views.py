@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from django.views.generic import TemplateView, DetailView, ListView, \
-                                     CreateView, UpdateView
+                                     CreateView, UpdateView, FormView
 
 from .models import Item, ShoppingList, ShoppingListItem
-
+from .forms import UploadFileForm
 
 class HomeView(TemplateView):
     """ Home page
@@ -120,9 +120,21 @@ class AddShoppingListItemView(CreateView):
         return context
 
 
+class UploadShoppingListView(FormView):
+    template_name = 'shopping_list_file_upload.html'
+    form_class = UploadFileForm
+    success_url = '/'           
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        file = self.request.FILES['file']
+        handle_file_data(file)
+        return super(UploadShoppingListView, self).form_valid(form)   
 
 
-
+def handle_file_data(file):
+    print file.read()
 
 
 
