@@ -99,7 +99,6 @@ class AddShoppingListItemView(CreateView):
     fields = ['shopping_list', 'item']
 
     def get_success_url(self):
-        print self.get_object().shopping_list
         return reverse('home')
 
     def get_initial(self):

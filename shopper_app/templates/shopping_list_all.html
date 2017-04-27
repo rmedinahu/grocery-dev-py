@@ -9,15 +9,13 @@
 {% block content_row %} 
 <div class="col-md-12">
 	<p>
-		<strong>Items</strong>
-		<a href="{% url 'add_shoppinglist_item' %}" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i></a>
+		<strong>Shopping Lists</strong>
+		
   
 	    <ul class="list-unstyled">
-	    {% for item in object_list %}
+	    {% for list in object_list %}
 	        <li>
-	        {{ item.name }}
-	        <a href="" class="btn btn-link"><i class="fa fa-eye"></i></a>
-	        <a href="" class="btn btn-link"><i class="fa fa-edit"></i></a>
+	        {{ list.name }} <a href="{% url 'add_shoppinglist_item' list.pk %}" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i></a>
 	        </li>
 	    {% endfor %}
 	    </ul>
