@@ -13,6 +13,13 @@
 	    <input type="submit" class="btn btn-success" value="Upload it!" />
 	</form>
 </div>
+
+<div class="col-md-12">
+{% for i in results %} 
+    <p>{{ i }}</p>
+{% endfor %}
+
+</div>
 {% endblock content_row %} 
 
 

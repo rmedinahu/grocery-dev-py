@@ -1,11 +1,22 @@
+from django import forms
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from django.views.generic import TemplateView, DetailView, ListView, \
                                      CreateView, UpdateView, FormView
 
 from .models import Item, ShoppingList, ShoppingListItem
-from .forms import UploadFileForm
+
+##### Form classes ####
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+
+class SearchForm(forms.Form):
+    search = forms.CharField()
+
+##### Data handlers #####
+def handle_file_data(file):
+    print file.read()
 
 class HomeView(TemplateView):
     """ Home page
@@ -28,10 +39,21 @@ class ItemListView(ListView):
         context = super(ItemListView, self).get_context_data(**kwargs)
         
         # set custom template variables by adding or over writing 
-        # variables in context list. E.g., only show meat types.
-        context['object_list'] = Item.objects.filter(item_type='meat')
+        # variables in context list. E.g., only show type listed in query
+        # param if it is part of the url request.
 
-        # make sure to return the variable list.
+        # Query param exists if: /item/?filter=meat or other type name.
+
+        filter_val = self.request.GET.get('filter')
+        if filter_val:
+            context['object_list'] = Item.objects.filter(item_type=filter_val)
+        
+
+        item_types = set()
+        for i in Item.objects.all().values('item_type'):
+            item_types.add(i.values()[0])
+
+        context['types'] = list(item_types)
         return context
 
 
@@ -114,14 +136,12 @@ class AddShoppingListItemView(CreateView):
         context = super(AddShoppingListItemView, self).get_context_data(**kwargs)
         context['shopping_list'] = ShoppingList.objects.get(pk=self.kwargs.get('shopping_list_pk'))
 
-        # Demo
-        context['kwargs'] = self.kwargs
         return context
 
 
 class UploadShoppingListView(FormView):
     template_name = 'shopping_list_file_upload.html'
-    form_class = UploadFileForm
+    form_class = UploadFileForm  # see UploadFileForm class above.
     success_url = '/'           
 
     def form_valid(self, form):
@@ -132,8 +152,25 @@ class UploadShoppingListView(FormView):
         return super(UploadShoppingListView, self).form_valid(form)   
 
 
-def handle_file_data(file):
-    print file.read()
+class SearchView(FormView):
+    template_name = 'search.html'
+    form_class = SearchForm  # see SearchForm class above.
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It returns an HttpResponse containing search results.
+        
+        # get the search term entered in the search form
+        search_term = form.cleaned_data['search']
+        
+        # search for items where name is LIKE search term
+        context = self.get_context_data()     
+        context['results'] = Item.objects.filter(name__contains=search_term)
+        return render(self.request, self.template_name, context)
+        
+
+
+
 
 
 

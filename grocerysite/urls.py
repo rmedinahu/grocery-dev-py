@@ -18,7 +18,8 @@ from django.contrib import admin
 
 from shopper_app.views import HomeView, ItemListView, ItemCreateView, \
     ItemDetailView, ItemUpdateView, AddShoppingListItemView, \
-    ShoppingListItemsView, ShoppingListItemsAllView, UploadShoppingListView
+    ShoppingListItemsView, ShoppingListItemsAllView, UploadShoppingListView, \
+    SearchView
 
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
@@ -47,6 +48,8 @@ urlpatterns = [
     url(r'^shopper/(?P<shopping_list_pk>\d+)/add/$', AddShoppingListItemView.as_view(), name='add_shoppinglist_item'),
 
     url(r'^shopper/upload/$', UploadShoppingListView.as_view(), name='upload_shoppinglist_item'),
+
+    url(r'^search/$', SearchView.as_view(), name='search'),
 
     # admin site.
     url(r'^admin/', admin.site.urls),

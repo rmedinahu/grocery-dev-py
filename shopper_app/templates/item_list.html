@@ -9,6 +9,11 @@
 {% block content_row %} 
 <div class="col-md-12">
 	<p>
+	{% for i in types %}
+		<a class="btn btn-link" href="{% url 'item_list' %}?filter={{i}}">{{i}}</a>
+	{% endfor %}
+	</p>
+	<p>
 		<strong>Items</strong>
 		<a href="{% url 'item_add' %}" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i></a>
   
